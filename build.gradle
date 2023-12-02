@@ -1,17 +1,49 @@
 plugins {
-    id 'java-library'
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+    id "io.freefair.lombok" version "6.0.0-m2"
 }
+
+group = 'io.github.alyonachern'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+def selenideVersion = "6.16.1",
+    restAssuredVersion = "5.3.1",
+    allureVersion = "2.21.0"
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
 dependencies {
     testImplementation(
-            'io.rest-assured:rest-assured:5.3.1',
+            "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "io.rest-assured:json-schema-validator:$restAssuredVersion",
             'org.junit.jupiter:junit-jupiter:5.9.3',
+            'org.assertj:assertj-core:3.24.2',
             'org.slf4j:slf4j-simple:2.0.7'
     )
+}
+
+test {
+    useJUnitPlatform()
 }
 
 tasks.withType(JavaCompile) {

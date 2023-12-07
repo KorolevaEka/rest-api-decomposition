@@ -5,17 +5,17 @@ import demoqa.models.LoginResponseModel;
 import org.junit.jupiter.api.Test;
 
 import static demoqa.tests.TestData.credentials;
+import static demoqa.tests.TestData.isbn;
 import static io.qameta.allure.Allure.step;
 
 public class DeleteOneBookTest extends BaseTest {
 
     @Test
     void deleteBook() {
-        String isbn = "9781491904244";
 
         LoginResponseModel loginResponse = authorizationApi.login(credentials);
 
-        step("Авторизоваться в профиле с пустой корзиной", () ->
+        step("Удалить все книги из корзины", () ->
                 bookApi.deleteAllBooks(loginResponse));
 
         step("Добавить книгу в профиль", () ->
